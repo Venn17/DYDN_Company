@@ -23,6 +23,7 @@ namespace DYDN_Company.Models
         public float  Price { get; set; }
         // Foreign Key - tblCategory
         public int CategoryID { get; set; }
+        public string Images { get; set; }
         public CategoryProduct Category { get; set; }
         // Foreign Key - tblWareHouse
         public int WareHouseID { get; set; }

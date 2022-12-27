@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DYDN_Company.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20221227090026_s1")]
+    [Migration("20221227155924_s1")]
     partial class s1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -383,6 +383,8 @@ namespace DYDN_Company.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("Description");
+
+                    b.Property<string>("Images");
 
                     b.Property<DateTime>("ModifiedDate");
 
