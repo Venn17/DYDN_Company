@@ -171,6 +171,7 @@ namespace DYDN_Company.Migrations
                     Tax = table.Column<double>(nullable: false),
                     Price = table.Column<float>(nullable: false),
                     CategoryID = table.Column<int>(nullable: false),
+                    Images = table.Column<string>(nullable: true),
                     WareHouseID = table.Column<int>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),

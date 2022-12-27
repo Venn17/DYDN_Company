@@ -382,6 +382,8 @@ namespace DYDN_Company.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<string>("Images");
+
                     b.Property<DateTime>("ModifiedDate");
 
                     b.Property<string>("Name")
