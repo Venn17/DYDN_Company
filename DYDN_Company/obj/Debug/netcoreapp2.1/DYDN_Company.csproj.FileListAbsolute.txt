@@ -29,4 +29,3 @@ C:\LTV\Sem3\Project-Sem-3\DYDN_Company\DYDN_Company\obj\Debug\netcoreapp2.1\DYDN
 C:\LTV\Sem3\Project-Sem-3\DYDN_Company\DYDN_Company\obj\Debug\netcoreapp2.1\DYDN_Company.dll
 C:\LTV\Sem3\Project-Sem-3\DYDN_Company\DYDN_Company\obj\Debug\netcoreapp2.1\DYDN_Company.pdb
 C:\LTV\Sem3\Project-Sem-3\DYDN_Company\DYDN_Company\obj\Debug\netcoreapp2.1\DYDN_Company.csproj.CopyComplete
-C:\LTV\Sem3\Project-Sem-3\DYDN_Company\DYDN_Company\obj\Debug\netcoreapp2.1\DYDN_Company.csprojAssemblyReference.cache

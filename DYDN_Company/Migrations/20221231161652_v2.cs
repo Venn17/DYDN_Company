@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DYDN_Company.Migrations
 {
-    public partial class d1 : Migration
+    public partial class v2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "tblAccount",
+                name: "tblAccountUser",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
@@ -23,20 +23,20 @@ namespace DYDN_Company.Migrations
                     Phone = table.Column<string>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
                     Password = table.Column<string>(nullable: false),
-                    Role = table.Column<string>(nullable: true),
+                    Role = table.Column<byte>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblAccount", x => x.ID);
+                    table.PrimaryKey("PK_tblAccountUser", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblBanner",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
@@ -48,14 +48,14 @@ namespace DYDN_Company.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblBanner", x => x.ID);
+                    table.PrimaryKey("PK_tblBanner", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblCategory",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
@@ -66,14 +66,14 @@ namespace DYDN_Company.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblCategory", x => x.ID);
+                    table.PrimaryKey("PK_tblCategory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblDepartment",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
@@ -83,14 +83,14 @@ namespace DYDN_Company.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblDepartment", x => x.ID);
+                    table.PrimaryKey("PK_tblDepartment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tblFactory",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
@@ -100,37 +100,63 @@ namespace DYDN_Company.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblFactory", x => x.ID);
+                    table.PrimaryKey("PK_tblFactory", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "tblEmployee",
+                name: "tblOrder",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 30, nullable: true),
+                    Note = table.Column<string>(nullable: true),
+                    AccountUserId = table.Column<int>(nullable: false),
+                    TotalQuantity = table.Column<int>(nullable: false),
+                    TotalAmount = table.Column<int>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblOrder", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblOrder_tblAccountUser_AccountUserId",
+                        column: x => x.AccountUserId,
+                        principalTable: "tblAccountUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblAccountAdmin",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
-                    Gender = table.Column<bool>(nullable: false),
+                    Gender = table.Column<bool>(nullable: true),
                     Birthday = table.Column<DateTime>(nullable: false),
                     Address = table.Column<string>(maxLength: 50, nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
                     Password = table.Column<string>(nullable: false),
-                    Role = table.Column<string>(nullable: false),
-                    DepartmentID = table.Column<int>(nullable: false),
+                    Role = table.Column<byte>(nullable: false),
+                    DepartmentId = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblEmployee", x => x.ID);
+                    table.PrimaryKey("PK_tblAccountAdmin", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblEmployee_tblDepartment_DepartmentID",
-                        column: x => x.DepartmentID,
+                        name: "FK_tblAccountAdmin_tblDepartment_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "tblDepartment",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -138,24 +164,48 @@ namespace DYDN_Company.Migrations
                 name: "tblWareHouse",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
                     Quantity = table.Column<int>(nullable: false),
-                    Status = table.Column<bool>(nullable: false),
-                    FactoryID = table.Column<int>(nullable: false),
+                    Status = table.Column<byte>(nullable: false),
+                    Factory = table.Column<int>(nullable: true),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblWareHouse", x => x.ID);
+                    table.PrimaryKey("PK_tblWareHouse", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblWareHouse_tblFactory_FactoryID",
-                        column: x => x.FactoryID,
+                        name: "FK_tblWareHouse_tblFactory_Factory",
+                        column: x => x.Factory,
                         principalTable: "tblFactory",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tblBill",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    OrderId = table.Column<int>(nullable: false),
+                    TotalPrice = table.Column<float>(nullable: false),
+                    Tax = table.Column<int>(nullable: false),
+                    Status = table.Column<byte>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblBill", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblBill_tblOrder_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "tblOrder",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -163,15 +213,15 @@ namespace DYDN_Company.Migrations
                 name: "tblProduct",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Code = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 30, nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Tax = table.Column<double>(nullable: false),
                     Price = table.Column<float>(nullable: false),
-                    CategoryID = table.Column<int>(nullable: false),
+                    SalePrice = table.Column<float>(nullable: false),
                     Images = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: false),
                     WareHouseID = table.Column<int>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
@@ -179,92 +229,18 @@ namespace DYDN_Company.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblProduct", x => x.ID);
+                    table.PrimaryKey("PK_tblProduct", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblProduct_tblCategory_CategoryID",
-                        column: x => x.CategoryID,
+                        name: "FK_tblProduct_tblCategory_CategoryId",
+                        column: x => x.CategoryId,
                         principalTable: "tblCategory",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblProduct_tblWareHouse_WareHouseID",
                         column: x => x.WareHouseID,
                         principalTable: "tblWareHouse",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblOrderDetail",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ProductID = table.Column<int>(nullable: false),
-                    Quantity = table.Column<int>(nullable: false),
-                    Price = table.Column<float>(nullable: false),
-                    Status = table.Column<bool>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblOrderDetail", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_tblOrderDetail_tblProduct_ProductID",
-                        column: x => x.ProductID,
-                        principalTable: "tblProduct",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblOrder",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 30, nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    AccountID = table.Column<int>(nullable: false),
-                    TotalQuantity = table.Column<int>(nullable: false),
-                    TotalPrice = table.Column<int>(nullable: false),
-                    Status = table.Column<bool>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    HistoryBillID = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblOrder", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_tblOrder_tblAccount_AccountID",
-                        column: x => x.AccountID,
-                        principalTable: "tblAccount",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tblBill",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    OrderID = table.Column<int>(nullable: false),
-                    TotalPrice = table.Column<float>(nullable: false),
-                    Status = table.Column<bool>(nullable: false),
-                    CreatedDate = table.Column<DateTime>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tblBill", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_tblBill_tblOrder_OrderID",
-                        column: x => x.OrderID,
-                        principalTable: "tblOrder",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -272,77 +248,92 @@ namespace DYDN_Company.Migrations
                 name: "tblBillDetail",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BillID = table.Column<int>(nullable: false),
-                    OrderDetailID = table.Column<int>(nullable: false),
+                    BillId = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblBillDetail", x => x.ID);
+                    table.PrimaryKey("PK_tblBillDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblBillDetail_tblBill_BillID",
-                        column: x => x.BillID,
+                        name: "FK_tblBillDetail_tblBill_BillId",
+                        column: x => x.BillId,
                         principalTable: "tblBill",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tblBillDetail_tblOrderDetail_OrderDetailID",
-                        column: x => x.OrderDetailID,
-                        principalTable: "tblOrderDetail",
-                        principalColumn: "ID",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "tblHistoryBill",
+                name: "tblOrderDetail",
                 columns: table => new
                 {
-                    ID = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BillID = table.Column<int>(nullable: false),
+                    ProductId = table.Column<int>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<float>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
+                    OrderId = table.Column<int>(nullable: false),
                     CreatedDate = table.Column<DateTime>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tblHistoryBill", x => x.ID);
+                    table.PrimaryKey("PK_tblOrderDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_tblHistoryBill_tblBill_BillID",
-                        column: x => x.BillID,
-                        principalTable: "tblBill",
-                        principalColumn: "ID",
+                        name: "FK_tblOrderDetail_tblOrder_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "tblOrder",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tblOrderDetail_tblProduct_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "tblProduct",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblAccount_Code",
-                table: "tblAccount",
+                name: "IX_tblAccountAdmin_Code",
+                table: "tblAccountAdmin",
                 column: "Code",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblAccount_Email",
-                table: "tblAccount",
+                name: "IX_tblAccountAdmin_DepartmentId",
+                table: "tblAccountAdmin",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblAccountAdmin_Email",
+                table: "tblAccountAdmin",
                 column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblBill_OrderID",
+                name: "IX_tblAccountUser_Code",
+                table: "tblAccountUser",
+                column: "Code",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblAccountUser_Email",
+                table: "tblAccountUser",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblBill_OrderId",
                 table: "tblBill",
-                column: "OrderID");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblBillDetail_BillID",
+                name: "IX_tblBillDetail_BillId",
                 table: "tblBillDetail",
-                column: "BillID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblBillDetail_OrderDetailID",
-                table: "tblBillDetail",
-                column: "OrderDetailID");
+                column: "BillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblCategory_Code",
@@ -371,23 +362,6 @@ namespace DYDN_Company.Migrations
                 filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblEmployee_Code",
-                table: "tblEmployee",
-                column: "Code",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblEmployee_DepartmentID",
-                table: "tblEmployee",
-                column: "DepartmentID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblEmployee_Email",
-                table: "tblEmployee",
-                column: "Email",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tblFactory_Code",
                 table: "tblFactory",
                 column: "Code",
@@ -401,19 +375,9 @@ namespace DYDN_Company.Migrations
                 filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblHistoryBill_BillID",
-                table: "tblHistoryBill",
-                column: "BillID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOrder_AccountID",
+                name: "IX_tblOrder_AccountUserId",
                 table: "tblOrder",
-                column: "AccountID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tblOrder_HistoryBillID",
-                table: "tblOrder",
-                column: "HistoryBillID");
+                column: "AccountUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblOrder_Name",
@@ -423,14 +387,19 @@ namespace DYDN_Company.Migrations
                 filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblOrderDetail_ProductID",
+                name: "IX_tblOrderDetail_OrderId",
                 table: "tblOrderDetail",
-                column: "ProductID");
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblProduct_CategoryID",
+                name: "IX_tblOrderDetail_ProductId",
+                table: "tblOrderDetail",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblProduct_CategoryId",
                 table: "tblProduct",
-                column: "CategoryID");
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblProduct_Code",
@@ -457,9 +426,11 @@ namespace DYDN_Company.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblWareHouse_FactoryID",
+                name: "IX_tblWareHouse_Factory",
                 table: "tblWareHouse",
-                column: "FactoryID");
+                column: "Factory",
+                unique: true,
+                filter: "[Factory] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblWareHouse_Name",
@@ -467,21 +438,12 @@ namespace DYDN_Company.Migrations
                 column: "Name",
                 unique: true,
                 filter: "[Name] IS NOT NULL");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_tblOrder_tblHistoryBill_HistoryBillID",
-                table: "tblOrder",
-                column: "HistoryBillID",
-                principalTable: "tblHistoryBill",
-                principalColumn: "ID",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_tblBill_tblOrder_OrderID",
-                table: "tblBill");
+            migrationBuilder.DropTable(
+                name: "tblAccountAdmin");
 
             migrationBuilder.DropTable(
                 name: "tblBanner");
@@ -490,16 +452,19 @@ namespace DYDN_Company.Migrations
                 name: "tblBillDetail");
 
             migrationBuilder.DropTable(
-                name: "tblEmployee");
-
-            migrationBuilder.DropTable(
                 name: "tblOrderDetail");
 
             migrationBuilder.DropTable(
                 name: "tblDepartment");
 
             migrationBuilder.DropTable(
+                name: "tblBill");
+
+            migrationBuilder.DropTable(
                 name: "tblProduct");
+
+            migrationBuilder.DropTable(
+                name: "tblOrder");
 
             migrationBuilder.DropTable(
                 name: "tblCategory");
@@ -508,19 +473,10 @@ namespace DYDN_Company.Migrations
                 name: "tblWareHouse");
 
             migrationBuilder.DropTable(
+                name: "tblAccountUser");
+
+            migrationBuilder.DropTable(
                 name: "tblFactory");
-
-            migrationBuilder.DropTable(
-                name: "tblOrder");
-
-            migrationBuilder.DropTable(
-                name: "tblAccount");
-
-            migrationBuilder.DropTable(
-                name: "tblHistoryBill");
-
-            migrationBuilder.DropTable(
-                name: "tblBill");
         }
     }
 }
