@@ -38,7 +38,7 @@ namespace DYDN_Company.Controllers
             }
             user.AccountName = account.Code;
             user.Role = account.Role;
-            if (user.Email == account.Email && user.Password == account.Password)
+            if (user.Email == account.Email && user.Password == account.Password && account.Status == true)
             {
                 var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
                 var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -58,7 +58,10 @@ namespace DYDN_Company.Controllers
         [HttpGet]
         public IEnumerable<AccountAdmin> GetAccountAdmins()
         {
-            return _context.AccountAdmins;
+            //var accounts = from p in _context.AccountAdmins
+            //               select new AccountAdmin { Id = p.Id, Name = p.Name, Code = p.Code, Gender = p.Gender , Birthday = p.Birthday, Address = p.Address, Email = p.Email, Phone = p.Phone, Status = p.Status, Password = p.Password, Role = p.Role, DepartmentId = p.DepartmentId,DepartmentName = p.DepartmentName };
+            //return accounts.Where(b => b.Status == true);
+          return _context.AccountAdmins.Where(b => b.Status == true);
         }
 
         // GET: api/AccountAdmin/5
@@ -83,14 +86,14 @@ namespace DYDN_Company.Controllers
         // PUT: api/AccountAdmin/5
         [HttpPost]
         [Route("PutAccountAdmin")]
-        public async Task<IActionResult> PutAccountAdmin( [FromBody] AccountAdmin accountAdmin)
+        public async Task<IActionResult> PutAccountAdmin([FromBody] AccountAdmin accountAdmin)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-           
+
 
             _context.Entry(accountAdmin).State = EntityState.Modified;
 
@@ -100,7 +103,7 @@ namespace DYDN_Company.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                
+
             }
 
             return NoContent();
@@ -114,13 +117,64 @@ namespace DYDN_Company.Controllers
             {
                 return BadRequest(ModelState);
             }
-
             _context.AccountAdmins.Add(accountAdmin);
             await _context.SaveChangesAsync();
-
             return CreatedAtAction("GetAccountAdmin", new { id = accountAdmin.Id }, accountAdmin);
         }
+        [HttpGet]
+        [Route("TrashAccountAdmin")]
+        public IEnumerable<AccountAdmin> GetTrashAccountAdmin()
+        {
+            return _context.AccountAdmins.Where(b => b.Status == false);
+        }
+        [HttpPost]
+        [Route("RepeatAccountAdmin")]
+        public async Task<IActionResult> RepeatCategoryProduct([FromBody] AccountAdmin accountAdmin)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            _context.Entry(accountAdmin).State = EntityState.Modified;
+
+            try
+            {
+                accountAdmin.Status = true;
+                accountAdmin.ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return NoContent();
+        }
+        [HttpPost]
+        [Route("TemporaryDelete")]
+        public async Task<IActionResult> TemporaryDelete([FromBody] AccountAdmin accountAdmin)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(accountAdmin).State = EntityState.Modified;
+
+            try
+            {
+                accountAdmin.Status = false;
+                //categoryProduct.ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return NoContent();
+        }
         // DELETE: api/AccountAdmin/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccountAdmin([FromRoute] int? id)
