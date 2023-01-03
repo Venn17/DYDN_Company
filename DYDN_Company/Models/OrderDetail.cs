@@ -12,16 +12,14 @@ namespace DYDN_Company.Models
     public class OrderDetail
     {
         [Key]
-        public int? Id { get; set; }
+        public int ID { get; set; }
         // Foreign Key - tblProduct
-        public int ProductId { get; set; }
+        public int ProductID { get; set; }
         public Product Product { get; set; }
         public int Quantity { get; set; }
         public float Price { get; set; }
         [DefaultValue(false)]
         public bool Status { get; set; }
-        public int OrderId { get; set; }
-        public Order Order { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
     }

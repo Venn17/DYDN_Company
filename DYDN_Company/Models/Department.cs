@@ -12,7 +12,7 @@ namespace DYDN_Company.Models
     public class Department
     {
         [Key]
-        public int? Id { get; set; }
+        public int ID { get; set; }
         [Required(ErrorMessage = "This field can't blank")]
         public string Code { get; set; }
         [MaxLength(30, ErrorMessage = "Max of length is 30 characters")]
@@ -22,6 +22,5 @@ namespace DYDN_Company.Models
         public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public ICollection<AccountAdmin> AccountAdmins { get; set; }
     }
 }
