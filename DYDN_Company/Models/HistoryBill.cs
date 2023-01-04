@@ -11,9 +11,9 @@ namespace DYDN_Company.Models
     public class HistoryBill
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         // Foreign Key - tblBill
-        public int BillID { get; set; }
+        public int BillId { get; set; }
         public Bill Bill { get; set; }
         // Foreingn Key - tblOrder
         public ICollection<Order> Order { get; set; }

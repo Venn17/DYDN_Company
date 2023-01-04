@@ -13,53 +13,54 @@ namespace DYDN_Company.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AddCors")]
-    public class AccountController : ControllerBase
+    public class BannerController : ControllerBase
     {
         private readonly AppDBContext _context;
 
-        public AccountController(AppDBContext context)
+        public BannerController(AppDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/Account
+        // GET: api/Banner
         [HttpGet]
-        public IEnumerable<Account> GetAccounts()
+        public IEnumerable<Banner> GetBanners()
         {
-            return _context.Accounts;
+            return _context.Banners;
         }
 
-        // GET: api/Account/5
+        // GET: api/Banner/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAccount([FromRoute] int id)
+        public async Task<IActionResult> GetBanner([FromRoute] int? id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var account = await _context.Accounts.FindAsync(id);
+            var banner = await _context.Banners.FindAsync(id);
 
-            if (account == null)
+            if (banner == null)
             {
                 return NotFound();
             }
 
-            return Ok(account);
+            return Ok(banner);
         }
 
-        // PUT: api/Account/5
+        // PUT: api/Banner/5
         [HttpPost]
-        [Route("PutAccount")]
-        public async Task<IActionResult> PutAccount([FromBody] Account account)
+        [Route("PutBanner")]
+        public async Task<IActionResult> PutBanner( [FromBody] Banner banner)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            account.ModifiedDate = DateTime.Now;
-            _context.Entry(account).State = EntityState.Modified;
+           
+
+            _context.Entry(banner).State = EntityState.Modified;
 
             try
             {
@@ -67,51 +68,51 @@ namespace DYDN_Company.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-              
+               
             }
 
             return NoContent();
         }
 
-        // POST: api/Account
+        // POST: api/Banner
         [HttpPost]
-        public async Task<IActionResult> PostAccount([FromBody] Account account)
+        public async Task<IActionResult> PostBanner([FromBody] Banner banner)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            account.CreatedDate = DateTime.Now;
-            _context.Accounts.Add(account);
+
+            _context.Banners.Add(banner);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAccount", new { id = account.ID }, account);
+            return CreatedAtAction("GetBanner", new { id = banner.Id }, banner);
         }
 
-        // DELETE: api/Account/5
+        // DELETE: api/Banner/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount([FromRoute] int id)
+        public async Task<IActionResult> DeleteBanner([FromRoute] int? id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner == null)
             {
                 return NotFound();
             }
-           
-            _context.Accounts.Remove(account);
+
+            _context.Banners.Remove(banner);
             await _context.SaveChangesAsync();
 
-            return Ok(account);
+            return Ok(banner);
         }
 
-        private bool AccountExists(int id)
+        private bool BannerExists(int? id)
         {
-            return _context.Accounts.Any(e => e.ID == id);
+            return _context.Banners.Any(e => e.Id == id);
         }
     }
 }

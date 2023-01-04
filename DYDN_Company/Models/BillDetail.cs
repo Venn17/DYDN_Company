@@ -11,7 +11,7 @@ namespace DYDN_Company.Models
     public class BillDetail
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         // Foreign Key - tblBill
         public int BillID { get; set; }
         public Bill Bill { get; set; }

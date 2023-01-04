@@ -12,7 +12,7 @@ namespace DYDN_Company.Models
     public class Bill
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         // Foreign Key - tblOrder
         public int OrderID { get; set; }
         public Order Order { get; set; }

@@ -12,7 +12,7 @@ namespace DYDN_Company.Models
     public class OrderDetail
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
         // Foreign Key - tblProduct
         public int ProductID { get; set; }
         public Product Product { get; set; }

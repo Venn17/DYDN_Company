@@ -24,9 +24,14 @@ namespace DYDN_Company.Controllers
         [HttpGet]
         public IEnumerable<AccountUser> GetAccountUsers()
         {
-            return _context.AccountUsers;
+            return _context.AccountUsers.Where(b=>b.Status == true);
         }
-
+        [HttpGet]
+        [Route("TrashAccountUsers")]
+        public IEnumerable<AccountUser> GetTrashAccountUsers()
+        {
+            return _context.AccountUsers.Where(b => b.Status == false);
+        }
         // GET: api/AccountUsers/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAccountUser([FromRoute] int? id)
@@ -45,7 +50,54 @@ namespace DYDN_Company.Controllers
 
             return Ok(accountUser);
         }
+        [HttpPost]
+        [Route("RepeatAccountUsers")]
+        public async Task<IActionResult> RepeatAccountUsers([FromBody] AccountUser accountUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            _context.Entry(accountUser).State = EntityState.Modified;
+
+            try
+            {
+                accountUser.Status = true;
+                accountUser.ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return NoContent();
+        }
+        [HttpPost]
+        [Route("TemporaryDelete")]
+        public async Task<IActionResult> TemporaryDelete([FromBody] AccountUser accountUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(accountUser).State = EntityState.Modified;
+
+            try
+            {
+                accountUser.Status = false;
+                //categoryProduct.ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+            }
+
+            return NoContent();
+        }
         // PUT: api/AccountUsers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAccountUser([FromRoute] int? id, [FromBody] AccountUser accountUser)

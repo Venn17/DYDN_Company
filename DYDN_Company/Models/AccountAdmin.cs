@@ -39,7 +39,7 @@ namespace DYDN_Company.Models
         [DefaultValue("Customer")]
         public byte Role { get; set; }
         public int DepartmentId { get; set; }
-        public Department Departments { get; set; }
+        public virtual Department Departments { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
 
