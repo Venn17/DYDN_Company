@@ -77,10 +77,6 @@ namespace DYDN_Company.Models
             modelBuilder.Entity<Factory>().HasIndex(factory => factory.Name).IsUnique();
             modelBuilder.Entity<Factory>().HasIndex(factory => factory.Code).IsUnique();
             modelBuilder.Entity<Order>().HasIndex(order => order.Name).IsUnique();
-            modelBuilder.Entity<AccountAdmin>()
-           .HasOne(b => b.Departments)
-           .WithMany(b => b.AccountAdmins)
-            .HasForeignKey(p => p.DepartmentId);
         }
 
         public DbSet<AccountUser> AccountUsers { get; set; }
