@@ -173,5 +173,41 @@ namespace DYDN_Company.Controllers
         {
             return _context.AccountUsers.Any(e => e.Id == id);
         }
+
+        // POST: api/AccountUsers/Login
+        [HttpPost]
+        [Route("Login")]
+        public AccountUser Login([FromBody] AccountUserLogin login)
+        {
+            AccountUser result;
+            if (login.emailorphone.Contains('@') == true) {
+                result =  _context.AccountUsers.Where(acc => acc.Email == login.emailorphone & acc.Password == login.password).FirstOrDefault();
+            }
+            else
+            {
+                result =  _context.AccountUsers.Where(acc => acc.Phone == login.emailorphone & acc.Password == login.password).FirstOrDefault();
+            }
+            
+            if(result != null)
+            {
+                return result;
+            }
+
+            return null;
+        }
+
+        // POST: api/AccountUsers/ChangePassword/1
+        [HttpPost("id")]
+        [Route("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromRoute] int id,[FromBody] string password)
+        {
+            AccountUser result = _context.AccountUsers.Find(id);
+            if(result != null)
+            {
+                result.Password = password;
+                await _context.SaveChangesAsync();
+            }
+            return NoContent();
+        }
     }
 }
