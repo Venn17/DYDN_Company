@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DYDN_Company.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace DYDN_Company.Controllers
 {
@@ -13,6 +15,7 @@ namespace DYDN_Company.Controllers
     [ApiController]
     public class AccountUsersController : ControllerBase
     {
+        private static Random random = new Random();
         private readonly AppDBContext _context;
 
         public AccountUsersController(AppDBContext context)
@@ -27,7 +30,13 @@ namespace DYDN_Company.Controllers
             return _context.AccountUsers.Where(b=>b.Status == true);
         }
         [HttpGet]
-        [Route("TrashAccountUsers")]
+        [Route("getAll")]
+        public IEnumerable<AccountUser> GetAllAccountUsers()
+        {
+            return _context.AccountUsers.ToList();
+        }
+        [HttpGet]
+        [Route("TrashAccountUsers")]    
         public IEnumerable<AccountUser> GetTrashAccountUsers()
         {
             return _context.AccountUsers.Where(b => b.Status == false);
@@ -206,6 +215,66 @@ namespace DYDN_Company.Controllers
             {
                 result.Password = password;
                 await _context.SaveChangesAsync();
+            }
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("SendEmail")]
+        public ActionResult SendEmail([FromBody] string email)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string new_pass = new string(Enumerable.Repeat(chars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var account = _context.AccountUsers.Where(p => p.Email == email).FirstOrDefault();
+                    if (account == null)
+                    {
+                        return NotFound("Email not exist");
+                    }
+                    else
+                    {
+                        var senderEmail = new MailAddress("vienavtb@gmail.com", "CongVien");
+                        var receiverEmail = new MailAddress(email, "Receiver");
+                        var password = "rwpezipvxnciwrij";
+                        var subject = "Here's the link to reset your password";
+                        var body = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>"
+                        + "<p> below to change your password:</p>"
+                        + "<h4>Your new password is : <b>" + new_pass + "</b></h4>"
+                        + "<h3><p>Please don't share this email for everyone !</p></h3>"
+                        + "<br><p>This link will expire within the next hour . "
+                        + "<b>(If this is a spam message, please click  it is not spam)<b>";
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(senderEmail.Address, password)
+                        };
+                        using (var mess = new MailMessage(senderEmail, receiverEmail)
+                        {
+                            Subject = subject,
+                            Body = body,
+                            IsBodyHtml = true
+                        })
+                        {
+                            smtp.Send(mess);
+                        }
+                        account.Password = new_pass;
+                        _context.Update(account);
+                        _context.SaveChangesAsync();
+                    }
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+
             }
             return NoContent();
         }
