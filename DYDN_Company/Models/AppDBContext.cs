@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ReactAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,39 +17,15 @@ namespace DYDN_Company.Models
         {
 
             // Set Idenity for primary key
-            modelBuilder.Entity<AccountUser>(entity =>
+            modelBuilder.Entity<Account>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
-            modelBuilder.Entity<AccountAdmin>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
-            modelBuilder.Entity<Bill>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<BillDetail>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<CategoryProduct>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<Department>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<Factory>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<Order>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-            });
-            modelBuilder.Entity<OrderDetail>(entity =>
+            modelBuilder.Entity<Logined>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
@@ -56,40 +33,20 @@ namespace DYDN_Company.Models
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
-            modelBuilder.Entity<WareHouse>(entity =>
+            modelBuilder.Entity<Cart>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedOnAdd();
             });
 
             // Set Unique Constraint
-            modelBuilder.Entity<AccountUser>().HasIndex(account => account.Email).IsUnique();
-            modelBuilder.Entity<AccountUser>().HasIndex(account => account.Code).IsUnique();
-            modelBuilder.Entity<AccountAdmin>().HasIndex(account => account.Email).IsUnique();
-            modelBuilder.Entity<AccountAdmin>().HasIndex(account => account.Code).IsUnique();
             modelBuilder.Entity<Product>().HasIndex(product => product.Name).IsUnique();
-            modelBuilder.Entity<Product>().HasIndex(product => product.Code).IsUnique();
-            modelBuilder.Entity<CategoryProduct>().HasIndex(category => category.Name).IsUnique();
-            modelBuilder.Entity<CategoryProduct>().HasIndex(category => category.Code).IsUnique();
-            modelBuilder.Entity<Department>().HasIndex(dep => dep.Name).IsUnique();
-            modelBuilder.Entity<Department>().HasIndex(dep => dep.Code).IsUnique();
-            modelBuilder.Entity<WareHouse>().HasIndex(warehouse => warehouse.Code).IsUnique();
-            modelBuilder.Entity<WareHouse>().HasIndex(warehouse => warehouse.Name).IsUnique();
-            modelBuilder.Entity<Factory>().HasIndex(factory => factory.Name).IsUnique();
-            modelBuilder.Entity<Factory>().HasIndex(factory => factory.Code).IsUnique();
-            modelBuilder.Entity<Order>().HasIndex(order => order.Name).IsUnique();
+            modelBuilder.Entity<Account>().HasIndex(product => product.Email).IsUnique();
         }
 
-        public DbSet<AccountUser> AccountUsers { get; set; }
-        public DbSet<Bill> Bills { get; set; }
-        public DbSet<BillDetail> BillDetails { get; set; }
-        public DbSet<CategoryProduct> CategoryProducts { get; set; }
-        public DbSet<Department> Departments { get; set; }
-        public DbSet<AccountAdmin> AccountAdmins { get; set; }
-        public DbSet<Factory> Factories { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<Account> Accounts { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<WareHouse> WareHouses { get; set; }
-        public DbSet<Banner> Banners { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Logined> Logineds { get; set; }
+        public DbSet<Cart> Carts { get; set; }
     }
 }

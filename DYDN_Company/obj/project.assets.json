@@ -12643,11 +12643,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\DYDN_Company\\DYDN_Company\\DYDN_Company.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Desktop\\DYDN_Company\\DYDN_Company\\DYDN_Company\\DYDN_Company.csproj",
       "projectName": "DYDN_Company",
-      "projectPath": "C:\\Users\\User\\source\\repos\\DYDN_Company\\DYDN_Company\\DYDN_Company.csproj",
+      "projectPath": "C:\\Users\\User\\Desktop\\DYDN_Company\\DYDN_Company\\DYDN_Company\\DYDN_Company.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\source\\repos\\DYDN_Company\\DYDN_Company\\obj\\",
+      "outputPath": "C:\\Users\\User\\Desktop\\DYDN_Company\\DYDN_Company\\DYDN_Company\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using DYDN_Company.Models;
-using DYDN_Company.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DYDN_Company
@@ -43,7 +36,6 @@ namespace DYDN_Company
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DbConnect")));
             services.AddCors(c => c.AddPolicy("AddCors", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()));
-            services.AddScoped<FileService>();
             services.Configure<FormOptions>(o =>
             {
                 o.ValueLengthLimit = int.MaxValue;
